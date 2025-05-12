@@ -5,7 +5,7 @@ function Home() {
   return (
    <>
    <div className='h-screen bg-gray-100'>
-    <div className='pt-15 ps-12'>
+    <div className='pt-15 ps-2 md:ps-12'>
         <div className='text-4xl font-bold'>
             Set Your Specials Dates!!
         </div>

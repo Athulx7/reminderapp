@@ -19,13 +19,13 @@ function SideHeader() {
       isActive
         ? "border-r-5 border-emerald-500 h-8 bg-gradient-to-r from-gray-200 via-gray-300 to-emerald-200 text-black font-semibold"
         : ""
-    } hover:border-r-5 hover:border-emerald-500  hover:bg-gradient-to-r hover:from-gray-200 hover:via-gray-300 hover:to-emerald-200 `;
+    }  hover:bg-gradient-to-r hover:from-gray-200 hover:via-gray-300`;
   return (
     <div className="bg-gray-200 h-screen">
       <div className="p-3 flex items-center justify-center gap-2">
         <FontAwesomeIcon
           icon={faBell}
-          className="text-2xl text-emerald-500 animate-pulse" // Added subtle pulse animation
+          className="text-2xl text-emerald-500 animate-pulse"
         />
         <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
           ReminderApp
