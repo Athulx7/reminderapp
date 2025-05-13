@@ -10,7 +10,7 @@ import {
 
 function Help() {
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-16">
+    <div className="min-h-screen bg-gray-100 p-4 ">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-1">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -24,7 +24,7 @@ function Help() {
       <div className="text-sm mt-5 mb-2 text-gray-400 text-center ">
         Scroll down to see more
       </div>
-      <div className="overflow-y-auto h-[500px] hide-scrollbar">
+      <div className="overflow-y-auto h-[550px] hide-scrollbar ms-3">
         <div className="space-y-6">
          
           <div className="bg-white rounded-lg shadow-sm p-5">

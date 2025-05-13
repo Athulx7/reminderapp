@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function LandingPage() {
   const days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -59,10 +59,10 @@ function LandingPage() {
             events with timely notifications via email, SMS, or push alerts.
           </p>
           <div className="flex flex-col sm:flex-row ms-44 mb-10">
-            <button className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-md transition-colors">
+            <Link to={'/main'} className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-md transition-colors">
               Get Started
               <FontAwesomeIcon icon={faArrowRight} className="text-sm" />
-            </button>
+            </Link>
           </div>
 
           <div className="flex items-center gap-4">
