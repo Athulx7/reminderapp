@@ -9,7 +9,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function History() {
-  
   const [reminders] = useState([
     {
       id: 1,
@@ -38,7 +37,6 @@ function History() {
       message: "Rescheduled to May 15",
       notifiedVia: ["email"],
     },
-    
   ]);
 
   const [filter, setFilter] = useState("all");
@@ -53,20 +51,18 @@ function History() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-16 ">
-      
+    <div className="min-h-screen bg-gray-100 p-4 md:p-16 text-center md:text-start">
       <div className="mb-6 md:mb-8">
-        <div className="flex items-center gap-3 mb-2">
+        <div className=" gap-3 mb-2">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
             Your Reminder History!!
           </h1>
         </div>
-        <p className="text-gray-600 ml-9 md:ml-10">
+        <p className="text-gray-600">
           Review past reminders and their status
         </p>
       </div>
 
-    
       <div className="flex flex-col md:flex-row gap-4 mb-6">
         <div className="relative flex-grow">
           <FontAwesomeIcon
@@ -93,19 +89,27 @@ function History() {
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              {filterType === "birthday" && <FontAwesomeIcon icon={faCakeCandles} />}
-              {filterType === "loan" && <FontAwesomeIcon icon={faMoneyBillWave} />}
-              {filterType === "completed" && <FontAwesomeIcon icon={faCheckCircle} />}
-              {filterType === "all" ? "All" : filterType.charAt(0).toUpperCase() + filterType.slice(1)}
+              {filterType === "birthday" && (
+                <FontAwesomeIcon icon={faCakeCandles} />
+              )}
+              {filterType === "loan" && (
+                <FontAwesomeIcon icon={faMoneyBillWave} />
+              )}
+              {filterType === "completed" && (
+                <FontAwesomeIcon icon={faCheckCircle} />
+              )}
+              {filterType === "all"
+                ? "All"
+                : filterType.charAt(0).toUpperCase() + filterType.slice(1)}
             </button>
           ))}
         </div>
       </div>
 
-           <div className="text-sm mt-5 mb-2 text-gray-400 text-center ">
+      <div className="text-sm mt-5 mb-2 text-gray-400 text-center ">
         Scroll down to see more
       </div>
-      
+
       <div className="bg-white rounded-lg shadow-sm p-4 overflow-y-auto hide-scrollbar">
         {filteredReminders.length > 0 ? (
           <>
@@ -121,9 +125,7 @@ function History() {
                       ? "border-emerald-500 bg-emerald-50"
                       : "border-amber-500 bg-amber-50"
                   }`}
-                >
-                  
-                </div>
+                ></div>
               ))}
             </div>
           </>

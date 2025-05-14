@@ -14,8 +14,16 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-gray-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-8">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-gray-50 flex items-center justify-center p-4 relative">
+      
+      <Link to={'/'} className="absolute top-6 left-6 sm:left-10 flex items-center gap-2">
+        <FontAwesomeIcon icon={faUser} className="text-emerald-500 text-xl" />
+        <h2 className="text-xl sm:text-2xl font-bold text-emerald-600">
+          ReminderApp
+        </h2>
+      </Link>
+
+      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-6 sm:p-8">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="bg-emerald-100 p-3 rounded-full">
@@ -34,8 +42,8 @@ function Register() {
         </div>
 
         <form className="space-y-5">
-          <div className="flex gap-4">
-            <div className="w-1/2">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="w-full">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Full Name
               </label>
@@ -53,7 +61,7 @@ function Register() {
               </div>
             </div>
 
-            <div className="w-1/2">
+            <div className="w-full">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Phone Number
               </label>
@@ -90,8 +98,8 @@ function Register() {
             </div>
           </div>
 
-          <div className="flex gap-4">
-            <div className="w-1/2">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="w-full">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Password
               </label>
@@ -114,7 +122,7 @@ function Register() {
               </div>
             </div>
 
-            <div className="w-1/2">
+            <div className="w-full">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Confirm Password
               </label>

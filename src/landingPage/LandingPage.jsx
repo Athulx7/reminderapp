@@ -20,9 +20,9 @@ function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-gray-50 p-6">
-      <header className="flex justify-between items-center mb-7">
-        <div className="flex items-center gap-2">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-gray-50 p-4 sm:p-6">
+      <header className="flex flex-col sm:flex-row justify-between items-center mb-3 gap-4">
+        <Link to={'/'} className="flex items-center gap-2">
           <FontAwesomeIcon
             icon={faBell}
             className="text-2xl text-emerald-500 animate-pulse"
@@ -30,7 +30,7 @@ function LandingPage() {
           <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
             ReminderApp
           </h2>
-        </div>
+        </Link>
 
         <div className="flex gap-3">
           <NavLink
@@ -48,24 +48,28 @@ function LandingPage() {
         </div>
       </header>
 
-      <main className="flex flex-col lg:flex-row items-center justify-between gap-12 mx-20">
-        <div className="max-w-xl">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+      <main className="flex flex-col lg:flex-row items-center justify-between gap-12 max-w-7xl mx-auto">
+       
+        <div className="w-full lg:w-1/2 text-center lg:text-left px-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight">
             Never miss important dates{" "}
             <span className="text-emerald-500">again</span>
           </h1>
-          <p className="text-gray-600 mb-8 text-lg">
+          <p className="text-gray-600 mb-8 text-base sm:text-lg">
             ReminderApp helps you remember birthdays, anniversaries, and special
             events with timely notifications via email, SMS, or push alerts.
           </p>
-          <div className="flex flex-col sm:flex-row ms-44 mb-10">
-            <Link to={'/main'} className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-md transition-colors">
+          <div className="flex justify-center lg:justify-start mb-10">
+            <Link
+              to={"/main"}
+              className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-md transition-colors"
+            >
               Get Started
               <FontAwesomeIcon icon={faArrowRight} className="text-sm" />
             </Link>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
             <div className="flex -space-x-2">
               {[1, 2, 3].map((item) => (
                 <img
@@ -78,9 +82,9 @@ function LandingPage() {
                 />
               ))}
             </div>
-            <div>
+            <div className="text-center sm:text-left">
               <p className="text-sm font-medium">Trusted by 10,000+ users</p>
-              <div className="flex gap-1">
+              <div className="flex justify-center sm:justify-start gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <svg
                     key={star}
@@ -97,26 +101,30 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className="relative w-full max-w-md">
-          <div className="relative bg-white p-8 rounded-2xl shadow-xl border border-gray-100 transform ">
+        {/* Calendar Section */}
+        <div className="w-full lg:w-1/2 px-4">
+          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-gray-100">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-semibold text-gray-800">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-800">
                 How it works
               </h3>
               <FontAwesomeIcon
                 icon={faCalendarAlt}
-                className="text-emerald-500 text-2xl"
+                className="text-emerald-500 text-xl sm:text-2xl"
               />
             </div>
 
-            <div className="flex justify-between items-center text-black mb-2">
-              <div className="flex">
-                <button className="bg-gray-200  rounded-full w-6">{"<"}</button>
-                <p className="font-medium mx-5">May 2025</p>
-                <button className="bg-gray-200 rounded-full w-6">{">"}</button>
+            <div className="flex flex-col sm:flex-row justify-between items-center text-black mb-3">
+              <div className="flex items-center mb-2 sm:mb-0">
+                <button className="bg-gray-200 rounded-full w-6 h-6 text-sm">
+                  {"<"}
+                </button>
+                <p className="font-medium mx-4">May 2025</p>
+                <button className="bg-gray-200 rounded-full w-6 h-6 text-sm">
+                  {">"}
+                </button>
               </div>
-
-              <div className="text-black font-semibold">Today</div>
+              <div className="text-black font-semibold text-sm">Today</div>
             </div>
 
             <div className="grid grid-cols-7 text-center font-semibold text-emerald-500">
@@ -125,7 +133,7 @@ function LandingPage() {
               ))}
             </div>
 
-            <div className="grid grid-cols-7 gap-1 text-center mt-2 text-gray-700">
+            <div className="grid grid-cols-7 gap-1 text-center mt-2 text-gray-700 text-sm">
               {dates.flat().map((date, idx) => {
                 const isSelected = date === 25;
                 const isRange = [10, 11, 12, 13, 14, 15].includes(date);
@@ -133,13 +141,15 @@ function LandingPage() {
                 return (
                   <div
                     key={idx}
-                    className={`h-10 flex items-center justify-center rounded-full
-                ${
-                  isSelected ? "bg-white ring-2 ring-emerald-500 font-bold" : ""
-                }
-                ${isRange ? "bg-emerald-50 text-emerald-500" : ""}
-                ${!date ? "text-transparent" : ""}
-              `}
+                    className={`h-10 w-10 flex items-center justify-center rounded-full
+                    ${
+                      isSelected
+                        ? "bg-white ring-2  ring-emerald-500 font-bold"
+                        : ""
+                    }
+                    ${isRange ? "bg-emerald-50 text-emerald-500" : ""}
+                    ${!date ? "text-transparent" : ""}
+                  `}
                   >
                     {date}
                   </div>
@@ -147,45 +157,32 @@ function LandingPage() {
               })}
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <FontAwesomeIcon
-                  icon={faCheckCircle}
-                  className="text-emerald-500 mt-1"
-                />
-                <div>
-                  <h4 className="font-medium text-gray-800">
-                    Mark Important Dates
-                  </h4>
-                  <p className="text-sm text-gray-600">
-                    Highlight birthdays, anniversaries, and more
-                  </p>
+            <div className="space-y-4 mt-5 text-left">
+              {[
+                {
+                  title: "Mark Important Dates",
+                  desc: "Highlight birthdays, anniversaries, and more",
+                },
+                {
+                  title: "Get Reminders",
+                  desc: "Receive notifications via email or SMS",
+                },
+                {
+                  title: "Never Forget",
+                  desc: "Customize reminder timing and frequency",
+                },
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className="text-emerald-500 mt-1"
+                  />
+                  <div>
+                    <h4 className="font-medium text-gray-800">{item.title}</h4>
+                    <p className="text-sm text-gray-600">{item.desc}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <FontAwesomeIcon
-                  icon={faCheckCircle}
-                  className="text-emerald-500 mt-1"
-                />
-                <div>
-                  <h4 className="font-medium text-gray-800">Get Reminders</h4>
-                  <p className="text-sm text-gray-600">
-                    Receive notifications via email or SMS
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <FontAwesomeIcon
-                  icon={faCheckCircle}
-                  className="text-emerald-500 mt-1"
-                />
-                <div>
-                  <h4 className="font-medium text-gray-800">Never Forget</h4>
-                  <p className="text-sm text-gray-600">
-                    Customize reminder timing and frequency
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

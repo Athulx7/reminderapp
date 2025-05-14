@@ -8,7 +8,13 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-gray-50 flex items-center justify-center p-4 relative">
+      
+      <Link to={'/'} className="absolute top-6 left-6 sm:left-10 flex items-center gap-2">
+        <FontAwesomeIcon icon={faUser} className="text-emerald-500 text-xl" />
+        <h2 className="text-xl sm:text-2xl font-bold text-emerald-600">ReminderApp</h2>
+      </Link>
+
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">

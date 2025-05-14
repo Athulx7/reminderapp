@@ -30,9 +30,9 @@ function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 ps-6 pt-4">
+    <div className="min-h-screen bg-gray-100 ps-6 pt-4 text-center md:text-start">
       <div className="mb-8">
-        <div className="flex items-center gap-3 mb-1">
+        <div className=" gap-3 mb-1">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
             Account Settings
           </h1>

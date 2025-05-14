@@ -11,9 +11,10 @@ import {
   faClockRotateLeft,
   faGear,
   faHome,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
-function SideHeader() {
+function SideHeader({ onClose }) {
   const navigatedSection = ({ isActive }) =>
     `mt-5 ms-12 flex items-center h-10 ${
       isActive
@@ -21,7 +22,13 @@ function SideHeader() {
         : ""
     }  hover:bg-gradient-to-r hover:from-gray-200 hover:via-gray-300`;
   return (
-    <div className="bg-gray-200 h-screen">
+    <div className="bg-gray-200 h-screen relative">
+      <div className="absolute top-1 bottom-3 right-1  md:hidden block ">
+        <button onClick={onClose}>
+          <FontAwesomeIcon icon={faXmark} className="text-xl hover:text-red-600 text-gray-700" />
+        </button>
+      </div>
+
       <div className="p-3 flex items-center justify-center gap-2">
         <FontAwesomeIcon
           icon={faBell}

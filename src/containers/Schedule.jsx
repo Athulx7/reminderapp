@@ -32,9 +32,9 @@ function Schedule() {
   };
 
   return (
-    <div className="h-screen bg-gray-100 p-4 pt-0">
-      <div className="pt-10 ps-12">
-        <div className="text-4xl font-bold">Schedule New Reminder!!</div>
+    <div className="h-screen bg-gray-100 p-4 pt-0 text-center md:text-start">
+      <div className="md:pt-10 md:ps-12">
+        <div className="text-2xl md:text-3xl font-bold">Schedule New Reminder!!</div>
         <div className="text-md text-gray-600">
           Set reminders for birthdays, loans, or custom events
         </div>

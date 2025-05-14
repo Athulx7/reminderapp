@@ -21,9 +21,9 @@ function MyProfile() {
   };
 
   return (
-    <div className="h-screen bg-gray-100 p-4 pt-0">
-      <div className="pt-15 ps-12">
-        <div className="text-4xl font-bold">My Profile!!</div>
+    <div className="h-screen bg-gray-100 p-4 pt-0 text-center md:text-start">
+      <div className="md:pt-15 md:ps-12">
+        <div className="text-2xl md:text-3xl font-bold">My Profile!!</div>
         <div className="text-md text-gray-600">
           Manage your personal information and preferences
         </div>
