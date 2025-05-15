@@ -40,34 +40,34 @@ function SideHeader({ onClose }) {
       </div>
 
       <div className="mt-21 text flex-col">
-        <NavLink to={"/main"} end className={navigatedSection}>
+        <NavLink to={"/main"} end className={navigatedSection} onClick={()=>{if(window.innerWidth < 768 ) onclose()}}>
           <FontAwesomeIcon icon={faHome} />
           <span className="ms-2">Home</span>
         </NavLink>
 
-        <NavLink to={"/main/profile"} className={navigatedSection}>
+        <NavLink to={"/main/profile"} className={navigatedSection} onClick={()=>{if(window.innerWidth < 768 ) onclose()}}>
           <FontAwesomeIcon icon={faUser} />
           <span className="ms-2">My profile</span>
         </NavLink>
 
-        <NavLink to={"/main/schedule"} className={navigatedSection}>
+        <NavLink to={"/main/schedule"} className={navigatedSection} onClick={()=>{if(window.innerWidth < 768 ) onclose()}}>
           <FontAwesomeIcon icon={faCalendarDay} />
           <span className="ms-2">Schedule</span>
         </NavLink>
 
-        <NavLink to={"/main/history"} className={navigatedSection}>
+        <NavLink to={"/main/history"} className={navigatedSection} onClick={()=>{if(window.innerWidth < 768 ) onclose()}}>
           <FontAwesomeIcon icon={faClockRotateLeft} />
           <span className="ms-2">History</span>
         </NavLink>
       </div>
 
       <div className="mt-32 pb-24 text">
-        <NavLink to={"/main/settings"} className={navigatedSection}>
+        <NavLink to={"/main/settings"} className={navigatedSection} onClick={()=>{if(window.innerWidth < 768 ) onclose()}}>
           <FontAwesomeIcon icon={faGear} />
           <span className="ms-2">Settings</span>
         </NavLink>
 
-        <NavLink to={"/main/help"} className={navigatedSection}>
+        <NavLink to={"/main/help"} className={navigatedSection} onClick={()=>{if(window.innerWidth < 768 ) onclose()}}>
           <FontAwesomeIcon icon={faCircleQuestion} />
           <span className="ms-2">Help?</span>
         </NavLink>

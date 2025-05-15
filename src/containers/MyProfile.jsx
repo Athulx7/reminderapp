@@ -10,7 +10,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function MyProfile() {
-  
   const user = {
     name: "Alex Johnson",
     email: "alex.johnson@example.com",
@@ -28,7 +27,7 @@ function MyProfile() {
           Manage your personal information and preferences
         </div>
       </div>
-      <div className=" p-10 mt-10 bg-white  ms-4 rounded-xl  shadow-sm">
+      <div className=" p-10 mt-10 bg-white  md:ms-4 rounded-xl  shadow-sm">
         <div className="flex flex-col items-center py-4 border-b">
           <img
             className="w-20 h-20 rounded-full border-2 border-emerald-500 mb-3"

@@ -5,24 +5,79 @@ import {
   faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 function LandingPage() {
   const days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-  const dates = [
-    ["", "", "", "", "", "", 1],
-    [2, 3, 4, 5, 6, 7, 8],
-    [9, 10, 11, 12, 13, 14, 15],
-    [16, 17, 18, 19, 20, 21, 22],
-    [23, 24, 25, 26, 27, 28, 29],
-    [30, 31, "", "", "", "", ""],
-  ];
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const generateCalendar = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const daysFromPrevMonth = firstDay;
+    const prevMonthDays = new Date(year, month, 0).getDate();
+
+    const totalCells = Math.ceil((daysInMonth + daysFromPrevMonth) / 7) * 7;
+    const daysFromNextMonth = totalCells - (daysInMonth + daysFromPrevMonth);
+
+    const calendar = [];
+    let row = [];
+
+    for (let i = 0; i < daysFromPrevMonth; i++) {
+      row.push("");
+    }
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      row.push(i);
+      if (row.length === 7) {
+        calendar.push([...row]);
+        row = [];
+      }
+    }
+
+    for (let i = 0; i < daysFromNextMonth; i++) {
+      row.push("");
+    }
+    if (row.length > 0) calendar.push([...row]);
+
+    return calendar;
+  };
+
+  const calendarData = generateCalendar(currentDate);
+
+  const prevMonth = () => {
+    setCurrentDate(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
+    );
+  };
+
+  const nextMonth = () => {
+    setCurrentDate(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+    );
+  };
+
+  const monthYearFormat = currentDate.toLocaleString("default", {
+    month: "long",
+    year: "numeric",
+  });
+
+  const today = new Date();
+  const isCurrentMonth =
+    currentDate.getMonth() === today.getMonth() &&
+    currentDate.getFullYear() === today.getFullYear();
+  const todayDate = today.getDate();
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-gray-50 p-4 sm:p-6">
       <header className="flex flex-col sm:flex-row justify-between items-center mb-3 gap-4">
-        <Link to={'/'} className="flex items-center gap-2">
+        <Link to={"/"} className="flex items-center gap-2">
           <FontAwesomeIcon
             icon={faBell}
             className="text-2xl text-emerald-500 animate-pulse"
@@ -49,7 +104,6 @@ function LandingPage() {
       </header>
 
       <main className="flex flex-col lg:flex-row items-center justify-between gap-12 max-w-7xl mx-auto">
-       
         <div className="w-full lg:w-1/2 text-center lg:text-left px-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight">
             Never miss important dates{" "}
@@ -116,15 +170,26 @@ function LandingPage() {
 
             <div className="flex flex-col sm:flex-row justify-between items-center text-black mb-3">
               <div className="flex items-center mb-2 sm:mb-0">
-                <button className="bg-gray-200 rounded-full w-6 h-6 text-sm">
+                <button
+                  onClick={prevMonth}
+                  className="bg-gray-200 rounded-full w-6 h-6 text-sm cursor-pointer"
+                >
                   {"<"}
                 </button>
-                <p className="font-medium mx-4">May 2025</p>
-                <button className="bg-gray-200 rounded-full w-6 h-6 text-sm">
+                <p className="font-medium mx-4">{monthYearFormat}</p>
+                <button
+                  onClick={nextMonth}
+                  className="bg-gray-200 rounded-full w-6 h-6 text-sm cursor-pointer"
+                >
                   {">"}
                 </button>
               </div>
-              <div className="text-black font-semibold text-sm">Today</div>
+              <div
+                onClick={()=>{setCurrentDate(new Date())}}
+                className="text-black font-semibold text-sm cursor-pointer"
+              >
+                Today
+              </div>
             </div>
 
             <div className="grid grid-cols-7 text-center font-semibold text-emerald-500">
@@ -134,9 +199,8 @@ function LandingPage() {
             </div>
 
             <div className="grid grid-cols-7 gap-1 text-center mt-2 text-gray-700 text-sm">
-              {dates.flat().map((date, idx) => {
-                const isSelected = date === 25;
-                const isRange = [10, 11, 12, 13, 14, 15].includes(date);
+              {calendarData.flat().map((date, idx) => {
+                const isSelected = isCurrentMonth && date === todayDate;
 
                 return (
                   <div
@@ -144,11 +208,9 @@ function LandingPage() {
                     className={`h-10 w-10 flex items-center justify-center rounded-full
                     ${
                       isSelected
-                        ? "bg-white ring-2  ring-emerald-500 font-bold"
+                        ? " ring-2 bg-emerald-50 ring-emerald-500 font-bold"
                         : ""
                     }
-                    ${isRange ? "bg-emerald-50 text-emerald-500" : ""}
-                    ${!date ? "text-transparent" : ""}
                   `}
                   >
                     {date}

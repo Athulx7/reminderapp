@@ -30,7 +30,7 @@ function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 ps-6 pt-4 text-center md:text-start">
+    <div className="min-h-screen bg-gray-100 px-3 md:ps-6 pt-4 text-center md:text-start">
       <div className="mb-8">
         <div className=" gap-3 mb-1">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">

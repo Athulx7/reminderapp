@@ -24,9 +24,8 @@ function Help() {
       <div className="text-sm mt-5 mb-2 text-gray-400 text-center ">
         Scroll down to see more
       </div>
-      <div className="overflow-y-auto h-[550px] hide-scrollbar ms-3">
+      <div className="overflow-y-auto h-[550px] hide-scrollbar md:ms-3">
         <div className="space-y-6">
-         
           <div className="bg-white rounded-lg shadow-sm p-5">
             <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-gray-800">
               <FontAwesomeIcon icon={faBook} className="text-emerald-500" />
@@ -63,7 +62,6 @@ function Help() {
             </div>
           </div>
 
-        
           <div className="bg-white rounded-lg shadow-sm p-5">
             <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-gray-800">
               <FontAwesomeIcon icon={faComments} className="text-emerald-500" />
@@ -93,7 +91,6 @@ function Help() {
             </div>
           </div>
 
-        
           <div className="bg-white rounded-lg shadow-sm p-5">
             <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-gray-800">
               <FontAwesomeIcon icon={faBook} className="text-emerald-500" />
