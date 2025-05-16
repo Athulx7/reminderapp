@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 function LandingPage() {
+
   const days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -72,7 +73,6 @@ function LandingPage() {
     currentDate.getMonth() === today.getMonth() &&
     currentDate.getFullYear() === today.getFullYear();
   const todayDate = today.getDate();
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-gray-50 p-4 sm:p-6">
@@ -185,7 +185,9 @@ function LandingPage() {
                 </button>
               </div>
               <div
-                onClick={()=>{setCurrentDate(new Date())}}
+                onClick={() => {
+                  setCurrentDate(new Date());
+                }}
                 className="text-black font-semibold text-sm cursor-pointer"
               >
                 Today
@@ -205,7 +207,7 @@ function LandingPage() {
                 return (
                   <div
                     key={idx}
-                    className={`h-10 w-10 flex items-center justify-center rounded-full
+                    className={`h-10 w-10 flex items-center justify-center rounded-full md:ms-4
                     ${
                       isSelected
                         ? " ring-2 bg-emerald-50 ring-emerald-500 font-bold"

@@ -7,8 +7,13 @@ import {
   faBell,
   faMessage,
 } from "@fortawesome/free-solid-svg-icons";
+import { useLocation } from "react-router-dom";
 
 function Schedule() {
+
+  const location = useLocation()
+  const selectedDate = location.state?.selectedDate
+  console.log('curent date passed througbh',selectedDate)
   // Form state
   const [reminderType, setReminderType] = useState("birthday");
   const [title, setTitle] = useState("");
