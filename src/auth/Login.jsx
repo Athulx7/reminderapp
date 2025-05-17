@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { loginApi } from "../Services/ApiCall";
+import ReminderCommonModal from "../basicCompoents/ReminderCommonModal";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,6 +13,13 @@ function Login() {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "default",
+    onConfirm: null,
+  });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -42,14 +51,62 @@ function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const showModal = (title, message, type, onConfirm = null) => {
+    setModalState({
+      isOpen: true,
+      title,
+      message,
+      type,
+      onConfirm:
+        onConfirm ||
+        (() => setModalState((prev) => ({ ...prev, isOpen: false }))),
+    });
+  };
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     if (validate()) {
-      console.log("Login Data:", formData);
-      // Redirect to main page
-      navigate("/main");
+      try{
+      const apiResult = await loginApi(formData)
+      console.log(apiResult)
+      if (apiResult.status === 201) {
+        sessionStorage.setItem('logeduser',JSON.stringify(apiResult.data.data))
+        sessionStorage.setItem('token',apiResult.data.token)
+          showModal(
+            `Login Successful!`,
+            "You're logged in! Let's get your reminders set",
+            "success",
+            () => {
+              setModalState((prev) => ({ ...prev, isOpen: false }));
+              navigate("/main");
+            }
+          );
+        } else if (apiResult.status === 400) {
+          showModal(
+            "Login Conflict",
+            apiResult.response.data,
+            "info"
+          );
+        } else {
+          showModal(
+            "Login Failed",
+            "Something went wrong. Please try again later.",
+            "error"
+          );
+        }
+      } catch (err) {
+        showModal(
+          "Network Error",
+          "Unable to connect to the server. Please check your internet connection.",
+          "error"
+        );
+      }
     }
+  };
+
+   const closeModal = () => {
+    setModalState((prev) => ({ ...prev, isOpen: false }));
   };
 
   return (
@@ -125,6 +182,18 @@ function Login() {
           </Link>
         </div>
       </div>
+
+      {/* modal open  */}
+      <ReminderCommonModal
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+        title={modalState.title}
+        type={modalState.type}
+        primaryButtonText="OK"
+        onPrimaryButtonClick={modalState.onConfirm}
+      >
+        <p>{modalState.message}</p>
+      </ReminderCommonModal>
     </div>
   );
 }

@@ -9,6 +9,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { registerApi } from "../Services/ApiCall";
+import ReminderCommonModal from "../basicCompoents/ReminderCommonModal";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +23,13 @@ function Register() {
   });
 
   const [errors, setErrors] = useState({});
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "default",
+    onConfirm: null,
+  });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -65,12 +74,59 @@ function Register() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const showModal = (title, message, type, onConfirm = null) => {
+    setModalState({
+      isOpen: true,
+      title,
+      message,
+      type,
+      onConfirm:
+        onConfirm ||
+        (() => setModalState((prev) => ({ ...prev, isOpen: false }))),
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validation()) {
-      console.log("Form submitted:", registerData);
-      navigate("/main");
+      try {
+        const result = await registerApi(registerData);
+        // console.log(result.response.data.error);
+        if (result.status === 201) {
+          showModal(
+            "Registration Successful!",
+            "Account created successfully. Please log in.",
+            "success",
+            () => {
+              setModalState((prev) => ({ ...prev, isOpen: false }));
+              navigate("/login");
+            }
+          );
+        } else if (result.status === 400) {
+          showModal(
+            "Registration Conflict",
+            result.response.data.error,
+            "info"
+          );
+        } else {
+          showModal(
+            "Registration Failed",
+            "Something went wrong. Please try again later.",
+            "error"
+          );
+        }
+      } catch (err) {
+        showModal(
+          "Network Error",
+          "Unable to connect to the server. Please check your internet connection.",
+          "error"
+        );
+      }
     }
+  };
+
+  const closeModal = () => {
+    setModalState((prev) => ({ ...prev, isOpen: false }));
   };
 
   return (
@@ -119,7 +175,7 @@ function Register() {
                   name="fullname"
                   value={registerData.fullname}
                   onChange={handleChange}
-                  placeholder="John Doe"
+                  placeholder="Your name"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                 />
               </div>
@@ -142,7 +198,8 @@ function Register() {
                   name="phnno"
                   value={registerData.phnno}
                   onChange={handleChange}
-                  placeholder="+1 (555) 123-4567"
+                  placeholder="your phone number"
+                  // maxLength={10}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                 />
               </div>
@@ -253,6 +310,18 @@ function Register() {
           </Link>
         </div>
       </div>
+
+      {/* modal open  */}
+      <ReminderCommonModal
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+        title={modalState.title}
+        type={modalState.type}
+        primaryButtonText="OK"
+        onPrimaryButtonClick={modalState.onConfirm}
+      >
+        <p>{modalState.message}</p>
+      </ReminderCommonModal>
     </div>
   );
 }

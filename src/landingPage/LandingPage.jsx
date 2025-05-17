@@ -115,7 +115,7 @@ function LandingPage() {
           </p>
           <div className="flex justify-center lg:justify-start mb-10">
             <Link
-              to={"/main"}
+              to={"/register"}
               className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-md transition-colors"
             >
               Get Started
