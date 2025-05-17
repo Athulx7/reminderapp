@@ -38,7 +38,6 @@ function CalendarSection({ onClose }) {
     "2025-6-3": { title: "Conference", description: "Tech conference all day" },
   };
 
-  //calener data of current Mont
   const generateCalendar = (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -53,12 +52,10 @@ function CalendarSection({ onClose }) {
     const calendar = [];
     let row = [];
 
-    // Previous month days
     for (let i = 0; i < firstDay; i++) {
       row.push("");
     }
 
-    // Current month days
     for (let i = 1; i <= daysInMonth; i++) {
       row.push(i);
       if (row.length === 7) {
@@ -67,7 +64,6 @@ function CalendarSection({ onClose }) {
       }
     }
 
-    // Next month days
     for (let i = 0; i < daysFromNextMonth; i++) {
       row.push("");
     }
@@ -172,7 +168,7 @@ function CalendarSection({ onClose }) {
       </div>
 
       {/* Calendar container */}
-      <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 mt-8 sm:mt-10">
+      <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 mt-8 sm:mt-20 ">
         <div className="flex justify-center mb-6 sm:mb-10 md:mb-12">
           <div className="bg-gradient-to-br from-emerald-300 to-emerald-600 text-white py-2 px-3 sm:py-3 sm:px-4 rounded-lg sm:rounded-xl text-center shadow-md w-16 sm:w-20 md:w-24">
             <p className="text-xs sm:text-sm font-medium uppercase tracking-wider">

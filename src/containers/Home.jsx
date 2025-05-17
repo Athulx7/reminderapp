@@ -4,7 +4,7 @@ import HomeDateResult from '../components/home/HomeDateResult'
 function Home() {
   return (
     <div className='min-h-screen bg-gray-100'>
-      <div className='md:pt-12 px-4 sm:px-6 md:px-12 lg:px-16 text-center md:text-start'>
+      <div className='md:pt-10 px-4 sm:px-6 md:px-12 lg:px-16 text-center md:text-start'>
         <div className='text-2xl md:text-3xl font-bold text-gray-800'>
           Set Your Special Dates!!
         </div>

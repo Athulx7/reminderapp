@@ -20,7 +20,7 @@ function MainDashboard() {
           <SideHeader onClose={() => setShowLeft(false)} />
         </div>
 
-        <div className="col-span-12 md:col-span-7 relative overflow-y-auto">
+        <div className="col-span-12 md:col-span-7 relative overflow-y-auto md:overflow-y-hidden">
           <div className="flex justify-between items-center p-3 md:hidden">
             <button
               onClick={() => setShowLeft((prev) => !prev)}

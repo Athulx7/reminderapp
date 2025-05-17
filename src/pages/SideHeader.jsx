@@ -16,6 +16,7 @@ import {
 import { Link, NavLink } from "react-router-dom";
 
 function SideHeader({ onClose }) {
+
   const navigatedSection = ({ isActive }) =>
     `mt-5 ms-12 flex items-center h-10 cursor-pointer ${
       isActive
@@ -25,9 +26,8 @@ function SideHeader({ onClose }) {
 
   const handleNavClick = () => {
     if (window.innerWidth < 768) {
-      onClose(); // Close the sidebar on mobile
+      onClose();
     }
-    // Navigation will happen automatically via NavLink
   };
 
   return (
