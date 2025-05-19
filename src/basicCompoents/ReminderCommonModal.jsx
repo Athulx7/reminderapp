@@ -91,7 +91,7 @@ const ReminderCommonModal = ({
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="absolute top-3 right-3 text-gray-400 hover:text-gray-500 transition-colors"
+                className="absolute top-3 right-3 cursor-pointer text-gray-400 hover:text-gray-500 transition-colors"
               >
                 <FontAwesomeIcon icon={faTimes} />
               </button>
@@ -123,7 +123,7 @@ const ReminderCommonModal = ({
                 {secondaryButtonText && (
                   <button
                     onClick={onSecondaryButtonClick || onClose}
-                    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50"
+                    className="px-4 py-2 cursor-pointer rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50"
                   >
                     {secondaryButtonText}
                   </button>
@@ -131,7 +131,7 @@ const ReminderCommonModal = ({
                 {primaryButtonText && (
                   <button
                     onClick={onPrimaryButtonClick}
-                    className={`px-4 py-2 rounded-lg text-white ${currentType.buttonColor}`}
+                    className={`px-4 py-2 rounded-lg cursor-pointer text-white ${currentType.buttonColor}`}
                   >
                     {primaryButtonText}
                   </button>

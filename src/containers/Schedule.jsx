@@ -10,19 +10,21 @@ import {
 import { useLocation } from "react-router-dom";
 
 function Schedule() {
-
-  const location = useLocation()
+  const location = useLocation();
   const selectedDate = location.state?.selectedDate
-  console.log('curent date passed througbh',selectedDate)
-  // Form state
+  const formattedDate = selectedDate ? new Date(selectedDate).toISOString().split("T")[0] : "";
+  console.log("curent date passed througbh", formattedDate);
+  
+  const loggedUserData = JSON.parse(sessionStorage.getItem('logeduser'))
+
   const [reminderType, setReminderType] = useState("birthday");
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(formattedDate);
   const [message, setMessage] = useState("");
-  const [notifyByEmail, setNotifyByEmail] = useState(true);
-  const [notifyBySMS, setNotifyBySMS] = useState(false);
+  const [notifyByEmail, setNotifyByEmail] = useState(loggedUserData.notificationPreferences.email || true);
+  const [notifyBySMS, setNotifyBySMS] = useState(loggedUserData.notificationPreferences.mob || false);
 
-  // Handle form submission
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({
@@ -33,20 +35,24 @@ function Schedule() {
       notifyByEmail,
       notifyBySMS,
     });
-    // Add your API call or state management here
+    
   };
 
   return (
     <div className="h-screen bg-gray-100 p-4 pt-0 text-center md:text-start">
       <div className="md:pt-10 md:ps-12">
-        <div className="text-2xl md:text-3xl font-bold">Schedule New Reminder!!</div>
+        <div className="text-2xl md:text-3xl font-bold">
+          Schedule New Reminder!!
+        </div>
         <div className="text-md text-gray-600">
           Set reminders for birthdays, loans, or custom events
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-3 p-4 rounded-xl  bg-white shadow-sm">
-        
+      <form
+        onSubmit={handleSubmit}
+        className="mt-3 p-4 rounded-xl  bg-white shadow-sm"
+      >
         <div className="">
           <label className="block text-gray-700 mb-2">Reminder Type</label>
           <div className="grid grid-cols-3 gap-2">
@@ -89,8 +95,7 @@ function Schedule() {
           </div>
         </div>
 
-        
-        <div className="mb-4">
+        <div className="mb-4 mt-4">
           <label className="block text-gray-700 mb-1">Title</label>
           <input
             type="text"
@@ -104,7 +109,6 @@ function Schedule() {
           />
         </div>
 
-        
         <div className="mb-4">
           <label className="block text-gray-700 mb-1">Date</label>
           <input
@@ -116,7 +120,6 @@ function Schedule() {
           />
         </div>
 
-        
         <div className="mb-4">
           <label className="block text-gray-700 mb-1">Message</label>
           <textarea
@@ -134,7 +137,6 @@ function Schedule() {
           />
         </div>
 
-        
         <div className="mb-6">
           <label className="block text-gray-700 mb-2">Notify Me Via</label>
           <div className="flex items-center gap-4">
@@ -159,7 +161,6 @@ function Schedule() {
           </div>
         </div>
 
-        
         <button
           type="submit"
           className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-2 px-4 rounded-lg font-medium transition-colors"

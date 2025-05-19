@@ -10,17 +10,24 @@ import Settings from "./containers/Settings";
 import Help from "./containers/Help";
 import LandingPage from "./landingPage/LandingPage";
 import Register from "./auth/Register";
+import RouteProtection from "./route-protection/RouteProtection";
 
 function App() {
   return (
     <div className="bg-gray-100">
       <Routes>
-        
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/main" element={<MainDashboard />}>
+        <Route
+          path="/main"
+          element={
+            <RouteProtection>
+              <MainDashboard />
+            </RouteProtection>
+          }
+        >
           <Route index element={<Home />} />
           <Route path="profile" element={<MyProfile />} />
           <Route path="schedule" element={<Schedule />} />
@@ -28,7 +35,6 @@ function App() {
           <Route path="settings" element={<Settings />} />
           <Route path="help" element={<Help />} />
         </Route>
-
       </Routes>
     </div>
   );

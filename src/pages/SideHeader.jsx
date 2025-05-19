@@ -50,14 +50,17 @@ function SideHeader({ onClose }) {
 
   const navigate = useNavigate();
   const handleLogOut = () => {
-    sessionStorage.clear();
-    showModal(
-      "Logged Out",
-      "You have been successfully logged out.",
-      "info",
-      () => navigate("/")
-    );
-  };
+  showModal(
+    "Logged Out",
+    "You have been successfully logged out.",
+    "info",
+    () => {
+      sessionStorage.clear(); 
+      navigate("/");          g
+    }
+  );
+};
+
   const closeModal = () => {
     setModalState((prev) => ({ ...prev, isOpen: false }));
   };
@@ -122,7 +125,7 @@ function SideHeader({ onClose }) {
         </NavLink>
       </div>
 
-      <div className="mt-32 pb-24 text">
+      <div className="mt-28 pb-24 text">
         <NavLink
           to="/main/settings"
           className={navigatedSection}

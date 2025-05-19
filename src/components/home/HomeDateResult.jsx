@@ -151,7 +151,7 @@ function HomeDateResult() {
         <div className="flex space-x-4 items-center">
           <button
             onClick={goToToday}
-            className="text-emerald-600 hover:text-emerald-800 text-sm flex items-center"
+            className="text-emerald-600 hover:text-emerald-800 text-sm flex items-center cursor-pointer"
           >
             <FontAwesomeIcon icon={faCalendarDay} className="mr-1" />
             Today
@@ -159,13 +159,13 @@ function HomeDateResult() {
           <div className="flex space-x-2">
             <button
               onClick={prevWeek}
-              className="p-1 hover:bg-gray-100 rounded"
+              className="p-1 hover:bg-gray-100 rounded cursor-pointer"
             >
               <FontAwesomeIcon icon={faArrowLeft} />
             </button>
             <button
               onClick={nextWeek}
-              className="p-1 hover:bg-gray-100 rounded"
+              className="p-1 hover:bg-gray-100 rounded cursor-pointer"
             >
               <FontAwesomeIcon icon={faArrowRight} />
             </button>
@@ -183,7 +183,7 @@ function HomeDateResult() {
             <button
               key={`${day.date}-${day.day}`}
               onClick={() => handleDateClick(day)}
-              className={`flex flex-col items-center px-3 py-2 rounded-xl w-14 sm:w-12 text-sm font-semibold relative transition-colors ${
+              className={`flex flex-col cursor-pointer items-center px-3 py-2 rounded-xl w-14 sm:w-12 text-sm font-semibold relative transition-colors ${
                 isSelected
                   ? "bg-gradient-to-r from-emerald-200 to-emerald-500 text-white shadow-md"
                   : day.isToday
@@ -273,7 +273,7 @@ function HomeDateResult() {
             {!isPastDate && (
               <button
                 onClick={handleAddReminder}
-                className="mt-3 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-sm flex items-center mx-auto"
+                className="mt-3 px-4 py-2 cursor-pointer bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-sm flex items-center mx-auto"
               >
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
                 Add Reminder
