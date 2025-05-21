@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -8,15 +8,52 @@ import {
   faCalendarAlt,
   faCircleArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import ReminderCommonModal from "../basicCompoents/ReminderCommonModal";
 
 function MyProfile() {
-  const user = {
-    name: "Alex Johnson",
-    email: "alex.johnson@example.com",
-    phone: "+1 (555) 123-4567",
-    joinDate: "Joined March 2023",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtRs_rWILOMx5-v3aXwJu7LWUhnPceiKvvDg&s",
+  const user = JSON.parse(sessionStorage.getItem("logeduser"));
+  const createdDate = new Date(user.createdAt);
+  const formattedDate = createdDate.toLocaleString("default", {
+    month: "long",
+    year: "numeric",
+  });
+
+  const [modalState, setModalState] = useState({
+      isOpen: false,
+      title: "",
+      message: "",
+      type: "default",
+      onConfirm: null,
+    });
+
+    const showModal = (title, message, type, onConfirm = null) => {
+    setModalState({
+      isOpen: true,
+      title,
+      message,
+      type,
+      onConfirm:
+        onConfirm ||
+        (() => setModalState((prev) => ({ ...prev, isOpen: false }))),
+    });
+  };
+
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+  showModal(
+    "Logged Out",
+    "You have been successfully logged out.",
+    "info",
+    () => {
+      sessionStorage.clear(); 
+      navigate("/");          g
+    }
+  );
+};
+
+  const closeModal = () => {
+    setModalState((prev) => ({ ...prev, isOpen: false }));
   };
 
   return (
@@ -31,10 +68,12 @@ function MyProfile() {
         <div className="flex flex-col items-center py-4 border-b">
           <img
             className="w-20 h-20 rounded-full border-2 border-emerald-500 mb-3"
-            src={user.avatar}
-            alt={user.name}
+            src={
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtRs_rWILOMx5-v3aXwJu7LWUhnPceiKvvDg&s"
+            }
+            alt={user.username}
           />
-          <h2 className="text-xl font-bold text-gray-800">{user.name}</h2>
+          <h2 className="text-xl font-bold text-gray-800">{user.username}</h2>
           <p className="text-gray-500 text-sm">{user.email}</p>
         </div>
 
@@ -51,14 +90,14 @@ function MyProfile() {
               icon={faPhone}
               className="w-4 mr-3 text-emerald-500"
             />
-            <span>{user.phone}</span>
+            <span>{user.phoneNo}</span>
           </div>
           <div className="flex items-center text-gray-700">
             <FontAwesomeIcon
               icon={faCalendarAlt}
               className="w-4 mr-3 text-emerald-500"
             />
-            <span>{user.joinDate}</span>
+            <span>Joined {formattedDate}</span>
           </div>
         </div>
 
@@ -67,12 +106,22 @@ function MyProfile() {
             <FontAwesomeIcon icon={faGear} className="w-4 mr-3 text-gray-500" />
             <span>Account Settings</span>
           </button>
-          <button className="w-full flex items-center py-2 px-3 text-red-500 hover:bg-red-50 rounded-lg">
+          <button onClick={handleLogOut} className="w-full cursor-pointer flex items-center py-2 px-3 text-red-500 hover:bg-red-50 rounded-lg">
             <FontAwesomeIcon icon={faCircleArrowLeft} className="w-4 mr-3" />
             <span>Log Out</span>
           </button>
         </div>
       </div>
+      <ReminderCommonModal
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+        title={modalState.title}
+        type={modalState.type}
+        primaryButtonText="OK"
+        onPrimaryButtonClick={modalState.onConfirm}
+      >
+        <p>{modalState.message}</p>
+      </ReminderCommonModal>
     </div>
   );
 }

@@ -8,3 +8,11 @@ export const loginApi = async(loginData) => {
 export const registerApi = async(registerData) => {
     return await commonApi('POST',`${baseUrl}/user/register`,registerData,'')
 }
+
+export const addReminderApi = async(reminderData,header) => {
+    return await commonApi('POST',`${baseUrl}/user/addReminder`,reminderData,header)
+}
+
+export const getHomeReminderApi = async(header) => {
+    return await commonApi('GET',`${baseUrl}/user/getHomeReminder`,'',header)
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faXmark,
@@ -8,6 +8,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ReminderCommonModal from "../basicCompoents/ReminderCommonModal";
 import { useNavigate } from "react-router-dom";
+import { getHomeReminderApi } from "../Services/ApiCall";
+import { addNewReminderResponceContext } from "../contextShare/ContextShare";
 
 function CalendarSection({ onClose }) {
   const navigate = useNavigate();
@@ -17,25 +19,44 @@ function CalendarSection({ onClose }) {
   const [showAddReminderModal, setShowAddReminderModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [reminderData, setReminderData] = useState(null);
+  const [reminders, setReminders] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const token = sessionStorage.getItem('token');
+  const {addNewReminderRepsonce, setAddnewReminderResponce} = useContext(addNewReminderResponceContext)
 
-  const dummyReminders = {
-    "2025-5-10": {
-      title: "Team Meeting",
-      description: "Weekly team sync at 10 AM",
-    },
-    "2025-5-15": {
-      title: "Doctor Appointment",
-      description: "Dental checkup at 2 PM",
-    },
-    "2025-5-20": {
-      title: "Mom's Birthday",
-      description: "Don't forget to call!",
-    },
-    "2025-5-25": {
-      title: "Project Deadline",
-      description: "Submit final report by EOD",
-    },
-    "2025-6-3": { title: "Conference", description: "Tech conference all day" },
+  const fetchReminders = async () => {
+    try {
+      setIsLoading(true);
+      const header = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const result = await getHomeReminderApi(header);
+      if (result.status === 201) {
+        setReminders(result.data);
+      }
+    } catch (err) {
+      console.error("Error fetching reminders:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReminders();
+  }, [addNewReminderRepsonce]);
+
+  // Convert the reminders array to an object with dates as keys for easier lookup
+  const getRemindersByDate = () => {
+    const remindersByDate = {};
+    reminders.forEach(reminder => {
+      remindersByDate[reminder.date] = {
+        title: reminder.title,
+        description: reminder.description,
+        reminderType: reminder.reminderType
+      };
+    });
+    return remindersByDate;
   };
 
   const generateCalendar = (date) => {
@@ -98,10 +119,8 @@ function CalendarSection({ onClose }) {
 
   const hasReminder = (day) => {
     if (!day) return false;
-    const dateKey = `${currentDate.getFullYear()}-${
-      currentDate.getMonth() + 1
-    }-${day}`;
-    return dummyReminders[dateKey];
+    const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return getRemindersByDate()[dateKey];
   };
 
   const isPastDate = (day) => {
@@ -131,15 +150,13 @@ function CalendarSection({ onClose }) {
 
     setSelectedDate(clickedDate);
 
-    const dateKey = `${currentDate.getFullYear()}-${
-      currentDate.getMonth() + 1
-    }-${day}`;
-    const reminder = dummyReminders[dateKey];
+    const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const reminder = getRemindersByDate()[dateKey];
 
     if (reminder) {
       setReminderData(reminder);
       setShowReminderModal(true);
-    } else if (clickedDate < today) {
+    } else if (clickedDate <= today) {
       setShowErrorModal(true);
     } else {
       setShowAddReminderModal(true);
@@ -270,12 +287,26 @@ function CalendarSection({ onClose }) {
         onClose={() => setShowReminderModal(false)}
         title={reminderData?.title || "Reminder"}
         type="info"
+        primaryButtonText={
+          selectedDate &&
+          selectedDate >= new Date(new Date().setHours(0, 0, 0, 0))
+            ? "Set New Reminder"
+            : null
+        }
+        onPrimaryButtonClick={() => {
+          navigate("/main/schedule", {
+            state: { selectedDate: selectedDate.toLocaleDateString("en-CA") },
+          });
+          setShowReminderModal(false);
+        }}
+        secondaryButtonText="Close"
+        onSecondaryButtonClick={() => setShowReminderModal(false)}
       >
         <div className="space-y-2">
           <p>{reminderData?.description}</p>
-          <div className="flex items-center text-sm text-gray-500 mt-3">
+          <div className="flex items-center justify-center text-sm text-gray-500 mt-3">
             <FontAwesomeIcon icon={faBell} className="mr-2" />
-            <span>
+            <span className="text-center">
               {selectedDate?.toLocaleDateString("en-US", {
                 weekday: "long",
                 month: "long",
@@ -283,6 +314,12 @@ function CalendarSection({ onClose }) {
               })}
             </span>
           </div>
+          {selectedDate &&
+            selectedDate < new Date(new Date().setHours(0, 0, 0, 0)) && (
+              <p className="text-sm text-gray-500 mt-2">
+                (Past date - cannot add new reminders)
+              </p>
+            )}
         </div>
       </ReminderCommonModal>
 
@@ -294,8 +331,8 @@ function CalendarSection({ onClose }) {
         primaryButtonText="Schedule"
         onPrimaryButtonClick={() => {
           navigate("/main/schedule", {
-            state: {
-              selectedDate: selectedDate.toISOString(),
+            state: { 
+              selectedDate: selectedDate.toLocaleDateString("en-CA"),
             },
           });
           setShowAddReminderModal(false);

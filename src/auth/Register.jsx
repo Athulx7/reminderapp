@@ -139,6 +139,9 @@ function Register() {
         <h2 className="text-xl sm:text-2xl font-bold text-emerald-600">
           ReminderApp
         </h2>
+        <div className="text-[10px] mt-2">
+          can you wait 50 to 60 second for the every button click becouse the site is deployed in a free service 🥲
+        </div>
       </Link>
 
       <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-6 sm:p-8 mt-5">

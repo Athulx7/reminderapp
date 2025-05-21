@@ -63,16 +63,14 @@ function Login() {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validate()) {
-      try{
-      const apiResult = await loginApi(formData)
-      console.log(apiResult)
-      if (apiResult.status === 201) {
-        sessionStorage.setItem('logeduser',JSON.stringify(apiResult.data.data))
-        sessionStorage.setItem('token',apiResult.data.token)
+      try {
+        const apiResult = await loginApi(formData);
+        console.log(apiResult);
+        if (apiResult.status === 201) {
           showModal(
             `Login Successful!`,
             "You're logged in! Let's get your reminders set",
@@ -80,14 +78,15 @@ function Login() {
             () => {
               setModalState((prev) => ({ ...prev, isOpen: false }));
               navigate("/main");
+              sessionStorage.setItem(
+                "logeduser",
+                JSON.stringify(apiResult.data.data)
+              );
+              sessionStorage.setItem("token", apiResult.data.token);
             }
           );
         } else if (apiResult.status === 400) {
-          showModal(
-            "Login Conflict",
-            apiResult.response.data,
-            "info"
-          );
+          showModal("Login Conflict", apiResult.response.data, "info");
         } else {
           showModal(
             "Login Failed",
@@ -105,33 +104,54 @@ function Login() {
     }
   };
 
-   const closeModal = () => {
+  const closeModal = () => {
     setModalState((prev) => ({ ...prev, isOpen: false }));
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-gray-50 flex items-center justify-center p-4 relative">
-      <Link to={"/"} className="absolute top-6 left-6 sm:left-10 flex items-center gap-2">
+        <Link
+        to={"/"}
+        className="absolute top-6 left-6 sm:left-10 flex items-center gap-2"
+      >
         <FontAwesomeIcon icon={faUser} className="text-emerald-500 text-xl" />
-        <h2 className="text-xl sm:text-2xl font-bold text-emerald-600">ReminderApp</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-emerald-600">
+          ReminderApp
+        </h2>
+        <div className="text-[10px] mt-2">
+          can you wait 50 to 60 second for the every button click becouse the site is deployed in a free service 🥲
+        </div>
       </Link>
+
+      
+      
 
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="bg-emerald-100 p-3 rounded-full">
-              <FontAwesomeIcon icon={faUser} className="text-emerald-500 text-2xl" />
+              <FontAwesomeIcon
+                icon={faUser}
+                className="text-emerald-500 text-2xl"
+              />
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Welcome Back</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+            Welcome Back
+          </h1>
           <p className="text-gray-600">Sign in to manage your reminders</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
             <div className="relative">
-              <FontAwesomeIcon icon={faEnvelope} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              />
               <input
                 type="email"
                 name="email"
@@ -141,13 +161,20 @@ function Login() {
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
             <div className="relative">
-              <FontAwesomeIcon icon={faLock} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <FontAwesomeIcon
+                icon={faLock}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -164,7 +191,9 @@ function Login() {
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
               </button>
             </div>
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
 
           <button
@@ -177,7 +206,10 @@ function Login() {
 
         <div className="mt-6 text-center text-sm text-gray-600">
           Don't have an account?{" "}
-          <Link to="/register" className="text-emerald-600 font-medium hover:underline">
+          <Link
+            to="/register"
+            className="text-emerald-600 font-medium hover:underline"
+          >
             Sign up
           </Link>
         </div>

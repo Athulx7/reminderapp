@@ -11,57 +11,38 @@ import React, { useState, useEffect } from "react";
 import clockImage from "../../../src/assets/clock.png";
 import "./HomeDateResult.css";
 import { useNavigate } from "react-router-dom";
+import { getHomeReminderApi } from "../../Services/ApiCall";
 
 function HomeDateResult() {
   const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [weekDays, setWeekDays] = useState([]);
+  const [reminders, setReminders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const token = sessionStorage.getItem("token");
 
-  const dummyReminders = {
-    "2025-5-17": [
-      {
-        id: 1,
-        title: "Design Study",
-        description:
-          "Collaborate, manage projects, and reach new product peaks.",
-        type: "work",
-        time: "10:00 AM",
-      },
-    ],
-    "2025-5-20": [
-      {
-        id: 2,
-        title: "Team Meeting",
-        description: "Weekly sync with the design team",
-        type: "meeting",
-        time: "2:30 PM",
-      },
-      {
-        id: 3,
-        title: "Dentist Appointment",
-        description: "Regular dental checkup",
-        type: "personal",
-        time: "4:00 PM",
-      },
-      {
-        id: 5,
-        title: "Dentist Appointment",
-        description: "Regular dental checkup",
-        type: "personal",
-        time: "4:00 PM",
-      },
-    ],
-    "2025-5-22": [
-      {
-        id: 4,
-        title: "Project Deadline",
-        description: "Submit final project deliverables",
-        type: "work",
-        time: "11:59 PM",
-      },
-    ],
+  const fetchReminders = async () => {
+    try {
+      setIsLoading(true);
+      const header = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const result = await getHomeReminderApi(header);
+      if (result.status === 201) {
+        setReminders(result.data);
+      }
+    } catch (err) {
+      console.error("Error fetching reminders:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    fetchReminders();
+  }, []);
 
   // Generate week days based on current date
   useEffect(() => {
@@ -90,10 +71,18 @@ function HomeDateResult() {
   }, [currentDate]);
 
   const hasReminders = (date) => {
-    const dateKey = `${date.getFullYear()}-${
-      date.getMonth() + 1
-    }-${date.getDate()}`;
-    return dummyReminders[dateKey] || [];
+    if (isLoading) return [];
+
+    const dateStr = date.toISOString().split("T")[0];
+    return reminders
+      .filter((reminder) => reminder.date === dateStr)
+      .map((reminder) => ({
+        id: reminder._id,
+        title: reminder.title,
+        description: reminder.description,
+        type: reminder.reminderType,
+        date: reminder.date,
+      }));
   };
 
   const prevWeek = () => {
@@ -138,9 +127,18 @@ function HomeDateResult() {
   };
 
   const selectedDateReminders = hasReminders(selectedDate);
-  const isPastDate =
-    selectedDate < new Date() &&
-    !(selectedDate.toDateString() === new Date().toDateString());
+  const isPastDate = selectedDate < new Date();
+  const isToday = selectedDate.toDateString() === new Date().toDateString();
+
+  if (isLoading) {
+    return (
+      <div className="bg-white p-4 sm:p-5 rounded-xl w-full">
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white p-4 sm:p-5 rounded-xl w-full">
@@ -177,7 +175,7 @@ function HomeDateResult() {
         {weekDays.map((day) => {
           const isSelected =
             selectedDate.toDateString() === day.fullDate.toDateString();
-          const reminders = hasReminders(day.fullDate);
+          const dayReminders = hasReminders(day.fullDate);
 
           return (
             <button
@@ -195,7 +193,7 @@ function HomeDateResult() {
             >
               <span>{day.day}</span>
               <span>{day.date}</span>
-              {reminders.length > 0 && (
+              {dayReminders.length > 0 && (
                 <span
                   className={`absolute -bottom-1 w-2 h-2 rounded-full ${
                     isSelected ? "bg-white" : "bg-emerald-500"
@@ -217,9 +215,9 @@ function HomeDateResult() {
           ? `${selectedDateReminders.length} reminder${
               selectedDateReminders.length > 1 ? "s" : ""
             }`
-          : isPastDate
-          ? "Past date - no reminders can be added"
-          : "No reminders for this date"}
+          : isPastDate || isToday
+          ? "No reminders for this date"
+          : "No reminders scheduled"}
       </div>
 
       <div className="max-h-[300px] overflow-y-auto hide-scrollbar space-y-4">
@@ -268,9 +266,11 @@ function HomeDateResult() {
           <div className="text-center py-8 text-gray-400">
             <FontAwesomeIcon icon={faClock} className="text-4xl mb-2" />
             <p>
-              {isPastDate ? "This date has passed" : "No reminders scheduled"}
+              {isPastDate || isToday
+                ? "No reminders for this date"
+                : "No reminders scheduled"}
             </p>
-            {!isPastDate && (
+            {!isPastDate && !isToday && (
               <button
                 onClick={handleAddReminder}
                 className="mt-3 px-4 py-2 cursor-pointer bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-sm flex items-center mx-auto"
