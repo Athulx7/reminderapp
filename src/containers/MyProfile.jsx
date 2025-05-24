@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import ReminderCommonModal from "../basicCompoents/ReminderCommonModal";
+import LoadingComponent from "../basicCompoents/LoadingComponent";
 
 function MyProfile() {
   const user = JSON.parse(sessionStorage.getItem("logeduser"));
@@ -18,16 +19,17 @@ function MyProfile() {
     month: "long",
     year: "numeric",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const [modalState, setModalState] = useState({
-      isOpen: false,
-      title: "",
-      message: "",
-      type: "default",
-      onConfirm: null,
-    });
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "default",
+    onConfirm: null,
+  });
 
-    const showModal = (title, message, type, onConfirm = null) => {
+  const showModal = (title, message, type, onConfirm = null) => {
     setModalState({
       isOpen: true,
       title,
@@ -41,16 +43,17 @@ function MyProfile() {
 
   const navigate = useNavigate();
   const handleLogOut = () => {
-  showModal(
-    "Logged Out",
-    "You have been successfully logged out.",
-    "info",
-    () => {
-      sessionStorage.clear(); 
-      navigate("/");          g
-    }
-  );
-};
+    showModal(
+      "Logged Out",
+      "You have been successfully logged out.",
+      "info",
+      () => {
+        sessionStorage.clear();
+        navigate("/");
+        g;
+      }
+    );
+  };
 
   const closeModal = () => {
     setModalState((prev) => ({ ...prev, isOpen: false }));
@@ -73,7 +76,9 @@ function MyProfile() {
             }
             alt={user.username}
           />
-          <h2 className="text-xl font-bold text-gray-800">{user.username}</h2>
+          <h2 className="text-xl font-bold text-gray-800">
+            {user.username.toUpperCase()}
+          </h2>
           <p className="text-gray-500 text-sm">{user.email}</p>
         </div>
 
@@ -106,7 +111,10 @@ function MyProfile() {
             <FontAwesomeIcon icon={faGear} className="w-4 mr-3 text-gray-500" />
             <span>Account Settings</span>
           </button>
-          <button onClick={handleLogOut} className="w-full cursor-pointer flex items-center py-2 px-3 text-red-500 hover:bg-red-50 rounded-lg">
+          <button
+            onClick={handleLogOut}
+            className="w-full cursor-pointer flex items-center py-2 px-3 text-red-500 hover:bg-red-50 rounded-lg"
+          >
             <FontAwesomeIcon icon={faCircleArrowLeft} className="w-4 mr-3" />
             <span>Log Out</span>
           </button>

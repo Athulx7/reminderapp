@@ -16,3 +16,19 @@ export const addReminderApi = async(reminderData,header) => {
 export const getHomeReminderApi = async(header) => {
     return await commonApi('GET',`${baseUrl}/user/getHomeReminder`,'',header)
 }
+
+export const getReminderHistoryApi = async(header) => {
+    return await commonApi('GET',`${baseUrl}/user/gethistoryReminder`,'',header)
+}
+
+export const verifyingThePasswordApi = async(pass,header) => {
+    return await commonApi('POST',`${baseUrl}/user/verifyPassword`,pass,header)
+}
+
+export const resetPasswordApi = async(pass,header) => {
+    return await commonApi('POST',`${baseUrl}/user/resetPassword`,pass,header)
+}
+
+export const changeNotificationPrefeApi = async(notif,header) => {
+    return await commonApi('POST',`${baseUrl}/user/notificationPreference`,notif,header)
+}

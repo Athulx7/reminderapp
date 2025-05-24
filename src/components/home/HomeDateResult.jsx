@@ -12,6 +12,7 @@ import clockImage from "../../../src/assets/clock.png";
 import "./HomeDateResult.css";
 import { useNavigate } from "react-router-dom";
 import { getHomeReminderApi } from "../../Services/ApiCall";
+import LoadingComponent from "../../basicCompoents/LoadingComponent";
 
 function HomeDateResult() {
   const navigate = useNavigate();
@@ -132,11 +133,7 @@ function HomeDateResult() {
 
   if (isLoading) {
     return (
-      <div className="bg-white p-4 sm:p-5 rounded-xl w-full">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
-        </div>
-      </div>
+      <LoadingComponent />
     );
   }
 
@@ -282,6 +279,9 @@ function HomeDateResult() {
           </div>
         )}
       </div>
+      {
+        isLoading && <LoadingComponent />
+      }
     </div>
   );
 }

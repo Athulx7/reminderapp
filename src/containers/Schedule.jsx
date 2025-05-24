@@ -15,7 +15,7 @@ import { addNewReminderResponceContext } from "../contextShare/ContextShare";
 function Schedule() {
   const location = useLocation();
   const navigate = useNavigate();
-  const loggedUserData = JSON.parse(sessionStorage.getItem("logeduser")) || {};
+  const loggedUserData = JSON.parse(sessionStorage.getItem("logeduser"))
   const token = sessionStorage.getItem("token");
 
   // Form state
@@ -24,7 +24,7 @@ function Schedule() {
   const [date, setDate] = useState("");
   const [message, setMessage] = useState("");
   const [notifyByEmail, setNotifyByEmail] = useState(
-    loggedUserData.notificationPreferences?.email || true
+    loggedUserData.notificationPreferences?.email || false
   );
   const [notifyBySMS, setNotifyBySMS] = useState(
     loggedUserData.notificationPreferences?.mob || false

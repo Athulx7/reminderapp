@@ -77,7 +77,7 @@ function Help() {
                 <div>
                   <h3 className="font-medium text-gray-800">Email Us</h3>
                   <p className="text-gray-600 text-sm">
-                    support@reminderapp.com
+                    appreminder.team@gmail.com
                   </p>
                 </div>
               </div>
@@ -85,7 +85,7 @@ function Help() {
                 <FontAwesomeIcon icon={faPhone} className="text-emerald-500" />
                 <div>
                   <h3 className="font-medium text-gray-800">Call Us</h3>
-                  <p className="text-gray-600 text-sm">+1 (800) 123-4567</p>
+                  <p className="text-gray-600 text-sm">+91 9999999999</p>
                 </div>
               </div>
             </div>
