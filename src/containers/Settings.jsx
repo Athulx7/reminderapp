@@ -47,7 +47,6 @@ function Settings() {
     loading: false,
   });
 
-  // API call to update notification preferences
   const updateNotificationPrefs = async (type) => {
     try {
       const header = {
@@ -60,22 +59,32 @@ function Settings() {
         [type]: !notificationPrefs[type],
       };
 
-      const response = await changeNotificationPrefeApi({email: updatedPrefs.email,mob: updatedPrefs.sms,},header)
-      console.log(response)
+      if (!updatedPrefs.email && !updatedPrefs.sms) {
+        showModal(
+          "Warning",
+          "You must enable at least one notification method",
+          "warning"
+        );
+        return;
+      }
+
+      const response = await changeNotificationPrefeApi(
+        { email: updatedPrefs.email, mob: updatedPrefs.sms },
+        header
+      );
 
       if (response.status === 201) {
-        setNotificationPrefs(updatedPrefs)
-
+        setNotificationPrefs(updatedPrefs);
         const updatedUser = {
           ...userData,
           notificationPreferences: {
             email: updatedPrefs.email,
             mob: updatedPrefs.sms,
           },
-        }
-        sessionStorage.setItem("logeduser", JSON.stringify(updatedUser))
+        };
+        sessionStorage.setItem("logeduser", JSON.stringify(updatedUser));
       } else {
-        throw new Error(response.message || "Failed to update preferences")
+        throw new Error(response.message || "Failed to update preferences");
       }
     } catch (error) {
       console.error("Error updating notification preferences:", error);
@@ -242,7 +251,6 @@ function Settings() {
       </div>
 
       <div className="space-y-3">
-        {/* Notification Preferences */}
         <div className="bg-white rounded-lg shadow-sm p-5">
           <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-gray-800">
             <FontAwesomeIcon icon={faBell} className="text-emerald-500" />
@@ -287,7 +295,6 @@ function Settings() {
           </div>
         </div>
 
-        {/* Account Security */}
         <div className="bg-white rounded-lg shadow-sm p-5">
           <h2 className="flex items-center gap-2 text-lg font-semibold mb-4 text-gray-800">
             <FontAwesomeIcon icon={faShieldAlt} className="text-emerald-500" />
@@ -306,7 +313,6 @@ function Settings() {
           </div>
         </div>
 
-        {/* Log Out */}
         <div className="bg-white rounded-lg shadow-sm p-5">
           <button
             onClick={handleLogOut}
@@ -318,7 +324,6 @@ function Settings() {
         </div>
       </div>
 
-      {/* Password Change Modal */}
       {passwordModal.isOpen && (
         <ReminderCommonModal
           isOpen={passwordModal.isOpen}

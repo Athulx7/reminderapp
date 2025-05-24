@@ -21,8 +21,10 @@ function CalendarSection({ onClose }) {
   const [reminderData, setReminderData] = useState(null);
   const [reminders, setReminders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const token = sessionStorage.getItem('token');
-  const {addNewReminderRepsonce, setAddnewReminderResponce} = useContext(addNewReminderResponceContext)
+  const token = sessionStorage.getItem("token");
+  const { addNewReminderRepsonce, setAddnewReminderResponce } = useContext(
+    addNewReminderResponceContext
+  );
 
   const fetchReminders = async () => {
     try {
@@ -49,11 +51,11 @@ function CalendarSection({ onClose }) {
   // Convert the reminders array to an object with dates as keys for easier lookup
   const getRemindersByDate = () => {
     const remindersByDate = {};
-    reminders.forEach(reminder => {
+    reminders.forEach((reminder) => {
       remindersByDate[reminder.date] = {
         title: reminder.title,
         description: reminder.description,
-        reminderType: reminder.reminderType
+        reminderType: reminder.reminderType,
       };
     });
     return remindersByDate;
@@ -119,7 +121,9 @@ function CalendarSection({ onClose }) {
 
   const hasReminder = (day) => {
     if (!day) return false;
-    const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dateKey = `${currentDate.getFullYear()}-${String(
+      currentDate.getMonth() + 1
+    ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     return getRemindersByDate()[dateKey];
   };
 
@@ -150,7 +154,9 @@ function CalendarSection({ onClose }) {
 
     setSelectedDate(clickedDate);
 
-    const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dateKey = `${currentDate.getFullYear()}-${String(
+      currentDate.getMonth() + 1
+    ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     const reminder = getRemindersByDate()[dateKey];
 
     if (reminder) {
@@ -251,28 +257,39 @@ function CalendarSection({ onClose }) {
               <button
                 key={idx}
                 onClick={() => handleDateClick(date)}
-                className={`
-                  h-6 sm:h-8 md:h-10 flex items-center justify-center rounded-full text-xs sm:text-sm relative cursor-pointer
-                  ${isSelected ? "bg-emerald-500 text-white font-bold" : ""}
-                  ${
-                    hasRem && !isSelected
-                      ? "bg-emerald-50 text-emerald-600"
-                      : ""
-                  }
-                  ${isToday && !isSelected ? "ring-2 ring-emerald-500" : ""}
-                  ${
-                    isPast && hasRem && !isSelected
-                      ? "bg-emerald-100 text-emerald-800"
-                      : ""
-                  }
-                  ${!date ? "invisible" : "hover:bg-gray-100"}
-                  transition-colors
-                `}
+                className={` h-6 sm:h-8 md:h-10 flex items-center justify-center rounded-full text-xs sm:text-sm relative cursor-pointer
+                      ${isSelected ? "bg-emerald-500 text-white font-bold" : ""}
+                      ${
+                        hasRem && !isSelected
+                          ? isPast
+                            ? "bg-amber-50 text-amber-600"
+                            : "bg-emerald-50 text-emerald-600"
+                          : ""
+                      }
+                      ${
+                        isToday && !isSelected
+                          ? "ring-2 ring-emerald-500"
+                          : isPast && !hasRem
+                          ? "text-gray-400"
+                          : ""
+                      }
+                      ${
+                        isPast && hasRem && !isSelected
+                          ? "ring-1 ring-amber-500"
+                          : ""
+                      }
+                      ${
+                        !date ? "invisible" : "hover:bg-gray-100"
+                      } transition-colors`}
                 disabled={!date}
               >
                 {date}
                 {hasRem && (
-                  <span className="absolute bottom-0 w-1 h-1 bg-emerald-500 rounded-full"></span>
+                  <span
+                    className={`absolute bottom-0 w-1 h-1 rounded-full ${
+                      isPast ? "bg-amber-500" : "bg-emerald-500"
+                    }`}
+                  ></span>
                 )}
               </button>
             );
@@ -331,7 +348,7 @@ function CalendarSection({ onClose }) {
         primaryButtonText="Schedule"
         onPrimaryButtonClick={() => {
           navigate("/main/schedule", {
-            state: { 
+            state: {
               selectedDate: selectedDate.toLocaleDateString("en-CA"),
             },
           });
