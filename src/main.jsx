@@ -5,11 +5,11 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import ContextShare from "./contextShare/ContextShare.jsx";
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <ContextShare>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </ContextShare>
-  </StrictMode>
+  // </StrictMode>
 );

@@ -32,3 +32,7 @@ export const resetPasswordApi = async(pass,header) => {
 export const changeNotificationPrefeApi = async(notif,header) => {
     return await commonApi('POST',`${baseUrl}/user/notificationPreference`,notif,header)
 }
+
+export const getSpeceficDateReminderApi = async(header) => {
+    return await commonApi('GET',`${baseUrl}/user/getSpeficDateReminder`,'',header)
+}
